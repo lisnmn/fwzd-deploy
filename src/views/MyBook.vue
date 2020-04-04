@@ -11,15 +11,14 @@
 						<el-card class="myBook-cover-card" bodyStyle="padding:0px" shadow="hover">
 							<img :src="axios.defaults.baseURL + '/book/upload/' + book.cover">
 						</el-card>
-						<el-button @click="">变更封面</el-button>
 					</el-col>
 					<el-col style="width: 50px"></el-col>
 					<el-col style="width: 400px;text-align: left">
-						<el-form label-width="100px" label-position="right" ref="myBookForm" :model="book" :rules="rules">
+						<el-form label-width="100px" label-position="right" ref="myBookForm" :model="book"
+						         :rules="rules">
 							<el-form-item label="图片集名：" prop="name">
 								<el-input v-model="book.name"></el-input>
 							</el-form-item>
-							
 							<el-form-item label="上传者：">
 								<el-input v-model="book.uploader" disabled></el-input>
 							</el-form-item>
@@ -47,15 +46,12 @@
 			<el-card class="myBook-card" shadow="never">
 				<div v-for="(item, index) in imageList">
 					<el-card class="myBook-image-card" bodyStyle="padding:0px" shadow="hover">
-						<el-button type="danger" icon="el-icon-delete" circle
-						           style="position: absolute"
-						           @click="deleteImage(index)"></el-button>
 						<img class="myBook-image"
 						     :src="axios.defaults.baseURL + '/book/upload/'+ item.thumbUrl"
 						     @click="imageView(index)">
+						
 					</el-card>
 				</div>
-			
 			</el-card>
 		</el-main>
 	</el-container>
@@ -73,12 +69,14 @@
         data() {
             return {
                 book: '',
+                cover: '',
                 imageList: [],
                 rules: {
                     name: [
                         {required: true, message: '请输入图片集名', trigger: 'submit'}
                     ]
-                }
+                },
+                dialogVisible: false
             }
         },
         methods: {
@@ -110,13 +108,13 @@
                     }
                 })
             },
-            deleteImage (index) {
-            
+            deleteImage(index) {
+
             },
-            getParams () {
+            getParams() {
                 this.book = this.$store.getters.getBook
             },
-            getBookImageList () {
+            getBookImageList() {
                 axios.get('/book/imageList', {
                     params: {
                         bookId: this.book.id
@@ -127,7 +125,7 @@
                     }
                 })
             },
-            imageView (index) {
+            imageView(index) {
                 this.$store.dispatch('setImageList', this.imageList)
                 this.$store.dispatch('setImageIndex', index)
                 this.$router.push('/imageView')
